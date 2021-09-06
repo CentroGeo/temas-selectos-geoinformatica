@@ -11,9 +11,9 @@ En la materia optativa de geoinformática, los estudiantes aprendieron los conce
 
 En las siguientes ligas encontrarán los talleres y los notebooks correspondientes
 
-Análisis de accesibilidad
-Árboles de búsqueda
-Métricas de segregación espacial
-Procesamiento en paralelo para grandes cantidades de datos
-Modelos de Markov espaciales
-Simulaciones espaciales
+* Análisis de accesibilidad
+* Árboles de búsqueda
+* Métricas de segregación espacial
+* Procesamiento en paralelo para grandes cantidades de datos
+* Modelos de Markov espaciales
+* Simulaciones espaciales
