@@ -14955,6 +14955,7 @@ a.anchor-link {
 
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+<<<<<<< HEAD
 
 
 
@@ -15228,6 +15229,8 @@ a.anchor-link {
 
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+=======
+>>>>>>> bccd13943f04864fbb97ebcbb60b51a503793486
 
 
 
@@ -15287,6 +15290,7 @@ a.anchor-link {
       <td>0901000011716</td>
     </tr>
     <tr>
+<<<<<<< HEAD
       <th>5</th>
       <td>7601</td>
       <td>47065.2</td>
@@ -15375,9 +15379,46 @@ a.anchor-link {
       <td>7615</td>
       <td>48255.5</td>
       <td>0901000011716</td>
+=======
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>7611</td>
+      <td>41061.0</td>
+      <td>0901000011063</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>7612</td>
+      <td>40997.3</td>
+      <td>0901000011063</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>7613</td>
+      <td>42432.9</td>
+      <td>0901000011063</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>7614</td>
+      <td>42787.9</td>
+      <td>0901000011063</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>7615</td>
+      <td>41106.0</td>
+      <td>0901000011063</td>
+>>>>>>> bccd13943f04864fbb97ebcbb60b51a503793486
     </tr>
   </tbody>
 </table>
+<p>400 rows × 3 columns</p>
 </div>
 </div>
 
@@ -15390,9 +15431,285 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<<<<<<< HEAD
 <p>La guardamos como pickle</p>
+=======
+<p>Ya con nuestra función, podemos ahora sí hacer la matriz completa, sólo que eso evidentemente va a tardar mucho. Una forma de ganarle tiempo es correr el loop de la función en paralelo</p>
 
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="k">def</span> <span class="nf">parallel_get_od_matrix</span><span class="p">(</span><span class="n">origenes</span><span class="p">,</span> <span class="n">destinos</span><span class="p">,</span> <span class="n">njobs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">process_row</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+            <span class="n">origen_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">base_url</span> <span class="o">+</span> <span class="n">origen_str</span> <span class="o">+</span> <span class="s1">&#39;;&#39;</span> <span class="o">+</span> <span class="n">destinos_str</span> <span class="o">+</span> <span class="s1">&#39;?sources=0&#39;</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+            <span class="n">resultado</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">resultado</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Ok&#39;</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">destinos</span><span class="o">.</span><span class="n">copy</span><span class="p">()[[</span><span class="s1">&#39;id_parque&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;id_parque&#39;</span><span class="p">:</span><span class="s1">&#39;destino&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">c</span><span class="p">[</span><span class="s1">&#39;costo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resultado</span><span class="p">[</span><span class="s1">&#39;durations&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">c</span><span class="p">[</span><span class="s1">&#39;origen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">CVEGEO</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;something went wrong with origin </span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">CVEGEO</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">c</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;http://datalab:5000/table/v1/driving/&#39;</span>
+    <span class="c1"># primero hacemos todo el string de los destinos</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">destinos</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">destinos</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">pares</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span><span class="n">xs</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pares</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">destinos_str</span> <span class="o">=</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="c1">#para cada origen hacemos la patición y guardamos el resultado</span>
+    <span class="n">origenes</span> <span class="o">=</span> <span class="n">origenes</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>
+    <span class="n">costos</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># acá vamos a ir guardando los resultados para cada origen</span>
+    <span class="n">costos</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">njobs</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">process_row</span><span class="p">)(</span><span class="n">_</span><span class="p">,</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">origenes</span><span class="o">.</span><span class="n">iterrows</span><span class="p">())</span>
+    <span class="n">costos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">costos</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">costos</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Probamos nuestra nueva función y comparamos los tiempos de ejecución (noten que estamos usando sólo dos trabajos simultaneamente)</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>it
+<span class="n">costos</span> <span class="o">=</span> <span class="n">parallel_get_od_matrix</span><span class="p">(</span><span class="n">origenes</span><span class="p">,</span><span class="n">destinos</span><span class="p">)</span>
+<span class="n">costos</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>2.07 s ± 92.7 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%time</span>it
+<span class="n">costos</span> <span class="o">=</span> <span class="n">get_od_matrix</span><span class="p">(</span><span class="n">origenes</span><span class="p">,</span><span class="n">destinos</span><span class="p">)</span>
+<span class="n">costos</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>2.99 s ± 308 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Ganamos un 30%!!!!</p>
+<p>Con esta función podemos ya correr el algoritmo para la base de datos completa. Se va a tardar muchísimo, no lo intenten en casa!!!!</p>
+<p><strong>NOTA:</strong> Pueden jugar un poco con el valor de njobs, pero recuerden que debe ser menor al número de hilos de su procesador</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Matriz-completa">Matriz completa<a class="anchor-link" href="#Matriz-completa">&#182;</a></h2><p>Pues ahora ya estamos listos para hacer la matriz inmensa</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">matriz_completa</span> <span class="o">=</span> <span class="n">parallel_get_od_matrix</span><span class="o">-</span><span class="p">(</span><span class="n">agebs_zmvm_centroides</span><span class="p">,</span> <span class="n">areas_verdes_centroides</span><span class="p">,</span> <span class="n">njobs</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">matriz_completa</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+>>>>>>> bccd13943f04864fbb97ebcbb60b51a503793486
+
+</div>
+<<<<<<< HEAD
+=======
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_30981/4120831543.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>matriz_completa <span class="ansi-blue-fg">=</span> get_od_matrix<span class="ansi-blue-fg">(</span>agebs_zmvm_centroides<span class="ansi-blue-fg">,</span> areas_verdes_centroides<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> matriz_completa<span class="ansi-blue-fg">.</span>head<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">20</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/tmp/ipykernel_30981/2863186103.py</span> in <span class="ansi-cyan-fg">get_od_matrix</span><span class="ansi-blue-fg">(origenes, destinos)</span>
+<span class="ansi-green-intense-fg ansi-bold">     16</span>         origen_str <span class="ansi-blue-fg">=</span> str<span class="ansi-blue-fg">(</span>row<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>x<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;,&#39;</span> <span class="ansi-blue-fg">+</span> str<span class="ansi-blue-fg">(</span>row<span class="ansi-blue-fg">.</span>geometry<span class="ansi-blue-fg">.</span>y<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span>         req <span class="ansi-blue-fg">=</span> base_url <span class="ansi-blue-fg">+</span> origen_str <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;;&#39;</span> <span class="ansi-blue-fg">+</span> destinos_str <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;?sources=0&#39;</span>
+<span class="ansi-green-fg">---&gt; 18</span><span class="ansi-red-fg">         </span>r <span class="ansi-blue-fg">=</span> requests<span class="ansi-blue-fg">.</span>get<span class="ansi-blue-fg">(</span>req<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span>         resultado <span class="ansi-blue-fg">=</span> r<span class="ansi-blue-fg">.</span>json<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span>         <span class="ansi-green-fg">if</span> resultado<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;code&#39;</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;Ok&#39;</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/requests/api.py</span> in <span class="ansi-cyan-fg">get</span><span class="ansi-blue-fg">(url, params, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     73</span>     &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">     74</span> 
+<span class="ansi-green-fg">---&gt; 75</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> request<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;get&#39;</span><span class="ansi-blue-fg">,</span> url<span class="ansi-blue-fg">,</span> params<span class="ansi-blue-fg">=</span>params<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     76</span> 
+<span class="ansi-green-intense-fg ansi-bold">     77</span> 
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/requests/api.py</span> in <span class="ansi-cyan-fg">request</span><span class="ansi-blue-fg">(method, url, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">     59</span>     <span class="ansi-red-fg"># cases, and look like a memory leak in others.</span>
+<span class="ansi-green-intense-fg ansi-bold">     60</span>     <span class="ansi-green-fg">with</span> sessions<span class="ansi-blue-fg">.</span>Session<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> session<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 61</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> session<span class="ansi-blue-fg">.</span>request<span class="ansi-blue-fg">(</span>method<span class="ansi-blue-fg">=</span>method<span class="ansi-blue-fg">,</span> url<span class="ansi-blue-fg">=</span>url<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     62</span> 
+<span class="ansi-green-intense-fg ansi-bold">     63</span> 
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/requests/sessions.py</span> in <span class="ansi-cyan-fg">request</span><span class="ansi-blue-fg">(self, method, url, params, data, headers, cookies, files, auth, timeout, allow_redirects, proxies, hooks, stream, verify, cert, json)</span>
+<span class="ansi-green-intense-fg ansi-bold">    540</span>         }
+<span class="ansi-green-intense-fg ansi-bold">    541</span>         send_kwargs<span class="ansi-blue-fg">.</span>update<span class="ansi-blue-fg">(</span>settings<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 542</span><span class="ansi-red-fg">         </span>resp <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>send<span class="ansi-blue-fg">(</span>prep<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>send_kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    543</span> 
+<span class="ansi-green-intense-fg ansi-bold">    544</span>         <span class="ansi-green-fg">return</span> resp
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/requests/sessions.py</span> in <span class="ansi-cyan-fg">send</span><span class="ansi-blue-fg">(self, request, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    653</span> 
+<span class="ansi-green-intense-fg ansi-bold">    654</span>         <span class="ansi-red-fg"># Send the request</span>
+<span class="ansi-green-fg">--&gt; 655</span><span class="ansi-red-fg">         </span>r <span class="ansi-blue-fg">=</span> adapter<span class="ansi-blue-fg">.</span>send<span class="ansi-blue-fg">(</span>request<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    656</span> 
+<span class="ansi-green-intense-fg ansi-bold">    657</span>         <span class="ansi-red-fg"># Total elapsed time of the request (approximately)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/requests/adapters.py</span> in <span class="ansi-cyan-fg">send</span><span class="ansi-blue-fg">(self, request, stream, timeout, verify, cert, proxies)</span>
+<span class="ansi-green-intense-fg ansi-bold">    437</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    438</span>             <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> chunked<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 439</span><span class="ansi-red-fg">                 resp = conn.urlopen(
+</span><span class="ansi-green-intense-fg ansi-bold">    440</span>                     method<span class="ansi-blue-fg">=</span>request<span class="ansi-blue-fg">.</span>method<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    441</span>                     url<span class="ansi-blue-fg">=</span>url<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/urllib3/connectionpool.py</span> in <span class="ansi-cyan-fg">urlopen</span><span class="ansi-blue-fg">(self, method, url, body, headers, retries, redirect, assert_same_host, timeout, pool_timeout, release_conn, chunked, body_pos, **response_kw)</span>
+<span class="ansi-green-intense-fg ansi-bold">    697</span> 
+<span class="ansi-green-intense-fg ansi-bold">    698</span>             <span class="ansi-red-fg"># Make the request on the httplib connection object.</span>
+<span class="ansi-green-fg">--&gt; 699</span><span class="ansi-red-fg">             httplib_response = self._make_request(
+</span><span class="ansi-green-intense-fg ansi-bold">    700</span>                 conn<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    701</span>                 method<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/urllib3/connectionpool.py</span> in <span class="ansi-cyan-fg">_make_request</span><span class="ansi-blue-fg">(self, conn, method, url, timeout, chunked, **httplib_request_kw)</span>
+<span class="ansi-green-intense-fg ansi-bold">    443</span>                     <span class="ansi-red-fg"># Python 3 (including for exceptions like SystemExit).</span>
+<span class="ansi-green-intense-fg ansi-bold">    444</span>                     <span class="ansi-red-fg"># Otherwise it looks like a bug in the code.</span>
+<span class="ansi-green-fg">--&gt; 445</span><span class="ansi-red-fg">                     </span>six<span class="ansi-blue-fg">.</span>raise_from<span class="ansi-blue-fg">(</span>e<span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    446</span>         <span class="ansi-green-fg">except</span> <span class="ansi-blue-fg">(</span>SocketTimeout<span class="ansi-blue-fg">,</span> BaseSSLError<span class="ansi-blue-fg">,</span> SocketError<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    447</span>             self<span class="ansi-blue-fg">.</span>_raise_timeout<span class="ansi-blue-fg">(</span>err<span class="ansi-blue-fg">=</span>e<span class="ansi-blue-fg">,</span> url<span class="ansi-blue-fg">=</span>url<span class="ansi-blue-fg">,</span> timeout_value<span class="ansi-blue-fg">=</span>read_timeout<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/urllib3/packages/six.py</span> in <span class="ansi-cyan-fg">raise_from</span><span class="ansi-blue-fg">(value, from_value)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/site-packages/urllib3/connectionpool.py</span> in <span class="ansi-cyan-fg">_make_request</span><span class="ansi-blue-fg">(self, conn, method, url, timeout, chunked, **httplib_request_kw)</span>
+<span class="ansi-green-intense-fg ansi-bold">    438</span>                 <span class="ansi-red-fg"># Python 3</span>
+<span class="ansi-green-intense-fg ansi-bold">    439</span>                 <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 440</span><span class="ansi-red-fg">                     </span>httplib_response <span class="ansi-blue-fg">=</span> conn<span class="ansi-blue-fg">.</span>getresponse<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    441</span>                 <span class="ansi-green-fg">except</span> BaseException <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    442</span>                     <span class="ansi-red-fg"># Remove the TypeError from the exception chain in</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/http/client.py</span> in <span class="ansi-cyan-fg">getresponse</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1347</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1348</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1349</span><span class="ansi-red-fg">                 </span>response<span class="ansi-blue-fg">.</span>begin<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1350</span>             <span class="ansi-green-fg">except</span> ConnectionError<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1351</span>                 self<span class="ansi-blue-fg">.</span>close<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/http/client.py</span> in <span class="ansi-cyan-fg">begin</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    314</span>         <span class="ansi-red-fg"># read until we get a non-100 response</span>
+<span class="ansi-green-intense-fg ansi-bold">    315</span>         <span class="ansi-green-fg">while</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 316</span><span class="ansi-red-fg">             </span>version<span class="ansi-blue-fg">,</span> status<span class="ansi-blue-fg">,</span> reason <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_read_status<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    317</span>             <span class="ansi-green-fg">if</span> status <span class="ansi-blue-fg">!=</span> CONTINUE<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    318</span>                 <span class="ansi-green-fg">break</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/http/client.py</span> in <span class="ansi-cyan-fg">_read_status</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    275</span> 
+<span class="ansi-green-intense-fg ansi-bold">    276</span>     <span class="ansi-green-fg">def</span> _read_status<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 277</span><span class="ansi-red-fg">         </span>line <span class="ansi-blue-fg">=</span> str<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>fp<span class="ansi-blue-fg">.</span>readline<span class="ansi-blue-fg">(</span>_MAXLINE <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#34;iso-8859-1&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    278</span>         <span class="ansi-green-fg">if</span> len<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">&gt;</span> _MAXLINE<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    279</span>             <span class="ansi-green-fg">raise</span> LineTooLong<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;status line&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/miniconda3/envs/accesibilidad/lib/python3.9/socket.py</span> in <span class="ansi-cyan-fg">readinto</span><span class="ansi-blue-fg">(self, b)</span>
+<span class="ansi-green-intense-fg ansi-bold">    702</span>         <span class="ansi-green-fg">while</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    703</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 704</span><span class="ansi-red-fg">                 </span><span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_sock<span class="ansi-blue-fg">.</span>recv_into<span class="ansi-blue-fg">(</span>b<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    705</span>             <span class="ansi-green-fg">except</span> timeout<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    706</span>                 self<span class="ansi-blue-fg">.</span>_timeout_occurred <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">True</span>
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+>>>>>>> bccd13943f04864fbb97ebcbb60b51a503793486
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
