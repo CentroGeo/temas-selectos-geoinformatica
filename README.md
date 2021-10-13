@@ -13,7 +13,7 @@ En las siguientes ligas encontrarán los talleres y los notebooks correspondient
 
 * [Análisis de accesibilidad](./accesibilidad/accesibilidad.md)
 * [Árboles de búsqueda](./arboles_busqueda/Intro_arboles_taller.md)
-* Métricas de segregación espacial
+* [Métricas de segregación espacial](./segregacion/segregacion.md)
 * Procesamiento en paralelo para grandes cantidades de datos
 * Modelos de Markov espaciales
 * Simulaciones espaciales
