@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+accesibilidad/datos/areas_verdes_od_euclidean.csv
