@@ -7,4 +7,4 @@ Una vez más, recurriremos a PySAL, a través del módilo [Segregation](https://
 ## Notebooks
 
 1. [Métricas de segregación](./metricas.html). En este notebook vamos a explorar y aprender a usar los módulos que nos provee la librería para calcular diferentes métricas de segregación.  
-2. [Pruebas de hipótesis](./espaciales.html). ¿La segregación que estamos observando es significativa o es un artefacto de la distribución de la población?
+<!-- 2. [Pruebas de hipótesis](./espaciales.html). ¿La segregación que estamos observando es significativa o es un artefacto de la distribución de la población? -->
